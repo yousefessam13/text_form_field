@@ -1,7 +1,13 @@
+
 import 'package:flutter/material.dart';
+
 class HomeScreen extends StatelessWidget {
-  final form_key=GlobalKey<FormState>();
+  final form_key = GlobalKey<FormState>();
+  String email = '';
+  String password = '';
+
   HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,39 +19,67 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextFormField(
-                  decoration: InputDecoration(border: OutlineInputBorder(),
-                  labelText: "Enter Email"
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Enter Email",
                   ),
-                  validator:(value){
-                    if(value==null||value.isEmpty){
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
                       return 'Email Cannot br empty';
-                    }else if(!value.contains('.')||!value.contains('@')){
+                    } else if (!value.contains('.') || !value.contains('@')) {
                       return 'NOT VALID EMAIL';
                     }
                     return null;
-                  } ,
+                  },
+                  onSaved: (newValue) {
+                    if (newValue != null && newValue.isNotEmpty) {
+                      email = newValue;
+                    }
+                  },
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 20),
                 TextFormField(
                   obscureText: true,
-                  decoration: InputDecoration(border: OutlineInputBorder(),
-                      labelText: "Enter Password"),
-                  validator: (value){
-                    if(value==null||value.isEmpty){
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Enter Password",
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
                       return 'Password Cannot br empty';
-                    }else if(value.length<8||value.length>24){
+                    } else if (value.length < 8 || value.length > 24) {
                       return 'Password Length not valid';
                     }
                     return null;
                   },
+                  onSaved: (newValue) {
+                    if (newValue != null && newValue.isNotEmpty) {
+                      password = newValue;
+                    }
+                  },
                 ),
-                SizedBox(height: 20,),
+                SizedBox(height: 20),
                 SizedBox(
                   width: double.infinity,
-                  child:ElevatedButton(onPressed: (){
-                    form_key.currentState!.validate();
-                  }, child: Text("Submit")),
-                )
+                  child: ElevatedButton(
+                    onPressed: () {
+                      form_key.currentState!.validate();
+                      form_key.currentState!.save();
+                      debugPrint(email);
+                      debugPrint(password);
+                    },
+                    child: Text("Submit"),
+                  ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      form_key.currentState!.save();
+                    },
+                    child: Text("reset"),
+                  ),
+                ),
               ],
             ),
           ),
