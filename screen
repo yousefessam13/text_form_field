@@ -1,0 +1,56 @@
+import 'package:flutter/material.dart';
+class HomeScreen extends StatelessWidget {
+  final form_key=GlobalKey<FormState>();
+  HomeScreen({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Form(
+            key: form_key,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(border: OutlineInputBorder(),
+                  labelText: "Enter Email"
+                  ),
+                  validator:(value){
+                    if(value==null||value.isEmpty){
+                      return 'Email Cannot br empty';
+                    }else if(!value.contains('.')||!value.contains('@')){
+                      return 'NOT VALID EMAIL';
+                    }
+                    return null;
+                  } ,
+                ),
+                SizedBox(height: 20,),
+                TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(border: OutlineInputBorder(),
+                      labelText: "Enter Password"),
+                  validator: (value){
+                    if(value==null||value.isEmpty){
+                      return 'Password Cannot br empty';
+                    }else if(value.length<8||value.length>24){
+                      return 'Password Length not valid';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20,),
+                SizedBox(
+                  width: double.infinity,
+                  child:ElevatedButton(onPressed: (){
+                    form_key.currentState!.validate();
+                  }, child: Text("Submit")),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
